@@ -1,0 +1,33 @@
+
+Min = 1
+Max = 100
+Guesses = 0
+
+poop["shit"] = 2
+
+RandomNumber = Math.GetRandomNumber(Max - Min) + Min
+
+doLoop = 1
+
+While doLoop
+
+    TextWindow.WriteLine("What is your guess?")
+
+    guess = TextWindow.Read()
+    
+    Guesses = Guesses + 1
+    
+    If guess = RandomNumber Then
+        TextWindow.WriteLine("You win (in " + Guesses + " tries)")
+        doLoop = 0
+    Else
+        If RandomNumber > guess Then
+            TextWindow.WriteLine("Incorrect, the number is higher")
+        Else
+            TextWindow.WriteLine("Incorrect, the number is lower")
+        EndIf
+    EndIf
+
+EndWhile
+
+

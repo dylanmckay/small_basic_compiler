@@ -1,0 +1,28 @@
+
+Min = 1
+Max = 100
+
+RandomNumber = Math.GetRandomNumber(Max - Min) + Min
+
+doLoop = 1
+
+While doLoop
+
+    TextWindow.WriteLine("What is your guess?")
+
+    guess = TextWindow.Read()
+    
+    If guess = RandomNumber Then
+        TextWindow.WriteLine("You win")
+        doLoop = 0
+    Else
+        If RandomNumber > guess Then
+            TextWindow.WriteLine("Incorrect, the number is higher")
+        Else
+            TextWindow.WriteLine("Incorrect, the number is lower")
+        EndIf
+    EndIf
+
+EndWhile
+
+

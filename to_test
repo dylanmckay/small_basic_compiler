@@ -1,0 +1,10 @@
+
+
+Things to test:
+
+- For loop with string step.
+	- "3" Works, casts string to integer, calculates that way.
+	- "sadas" Fails, for loop doesn't execute, no exception or error.
+	
+- Function()["hello"]
+	- Fails.

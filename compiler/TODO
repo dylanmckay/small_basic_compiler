@@ -1,0 +1,10 @@
+
+
+URGENT BEFORE RELEASE:
+	- Make tokenizer support CR+LF and CR new lines, in eatWhitespace().
+	- add not operator expression.
+	- ElseIf statements
+	- negative expression
+	- error checking (if no endif)
+	
+	- error if value is not assigned but is used.

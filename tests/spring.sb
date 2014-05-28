@@ -1,0 +1,104 @@
+' 2012/10/14 16:28:42 Generated ' by Shapes 1.31 Made by Nonki_Takahashi 
+' Spring connected Ball bouncing program By NaochanON
+
+Shapes_Init()
+
+scale = 1
+Shapes_Add()
+angle = 0
+arm_Up()
+bounce()
+
+Sub bounce
+  d0=Math.pi
+  x02= shapes.GetLeft(shape[15]["obj"])     ' End point
+  SW=(X02-X0)/2                             ' swing of pendulum 
+  A=SW
+  While "true"
+    t=t+0.1
+    X=(X0+A) + SW*math.Cos(t-d0)            ' Ball position X
+    RT=(X02-X)/(X02-X0)
+    For i=1 To 249
+      Shapes.Move(spring[i],SPRX[i]+(1-RT)*(X02-SPRX[i]),SPRY[i])
+    endfor
+    Shapes.Move(shape[17]["obj"],shapes.GetLeft(spring[1])-35,y0)      ' 
+    Program.Delay(50)
+    Sw=SW*0.995                             ' reduction by Friction
+  endwhile
+EndSub
+
+Sub spring
+  GraphicsWindow.BrushColor="Brown"
+  GraphicsWindow.PenColor="Brown"
+  DR=shape[17]["width"]*s/2                    ' radius
+  x0=shapes.GetLeft(shape[17]["obj"])
+  y0=shapes.Gettop(shape[17]["obj"])
+  For i=  250 To 1 Step -1
+    spring[i]= Shapes.AddEllipse(5,5)
+    Rad=math.GetRadians(320-i*9)
+    SPRX[i]=x0+DR*(1-Math.Cos(rad))+i*1.1+20   ' spring X
+    SPRY[i]=y0-DR*Math.sin(rad)+10             ' spring Y 
+    Shapes.Move(spring[i],SPRX[i],SPRY[i])
+  EndFor
+EndSub
+
+Sub arm_Up
+  armY=shapes.GetTop(shape[10]["obj"])
+  for i=0 To 3
+    Shapes.Rotate(shape[10]["obj"], shape[10]["angle"]-i*15)
+    shapes.Move(shape[10]["obj"],shapes.GetLeft(shape[10]["obj"]),armY-shape[10]["width"]/2*Math.Sin(math.GetRadians(i*15)))
+    Shapes.Rotate(shape[11]["obj"], shape[11]["angle"]-i*15)
+    shapes.Move(shape[11]["obj"],shapes.GetLeft(shape[11]["obj"]),armY-shape[10]["width"]*Math.Sin(math.GetRadians(i*15)))
+    Program.Delay(200)
+  endfor
+EndSub
+
+Sub Shapes_Add
+  GraphicsWindow.BackgroundColor="Lightcyan"
+  nShapes = Array.GetItemCount(shape)
+  s = scale
+  For i = 1 To nShapes
+    GraphicsWindow.PenWidth = shape[i]["pw"] * s
+    If shape[i]["pw"] > 0 Then
+      GraphicsWindow.PenColor = shape[i]["pc"]
+    EndIf
+    GraphicsWindow.BrushColor = shape[i]["bc"]
+    If shape[i]["func"] = "rect" Then
+      shape[i]["obj"] = Shapes.AddRectangle(shape[i]["width"]* s, shape[i]["height"] * s)
+    ElseIf shape[i]["func"] = "ell" Then
+      shape[i]["obj"] = Shapes.AddEllipse(shape[i]["width"] * s, shape[i]["height"]* s)
+    ElseIf shape[i]["func"] = "tri" Then
+      shape[i]["obj"] = Shapes.AddTriangle(shape[i]["x1"] * s, shape[i]["y1"] * s, shape[i]["x2"] * s, shape[i]["y2"] * s, shape[i]["x3"] * s, shape[i]["y3"] * s)
+    ElseIf shape[i]["func"] = "line" Then
+      shape[i]["obj"] = Shapes.AddLine(shape[i]["x1"] * s, shape[i]["y1"]* s, shape[i]["x2"] * s, shape[i]["y2"] * s)
+    EndIf
+    Shapes.Move(shape[i]["obj"], shX + shape[i]["x"] * s, shY + shape[i]["y"] * s)
+    If shape[i]["angle"] <> 0 Then
+      Shapes.Rotate(shape[i]["obj"], shape[i]["angle"])
+    EndIf
+  EndFor
+  spring()
+EndSub
+
+Sub Shapes_Init
+  shX = 102 ' x offset
+  shY = 117 ' y offset
+  shape = ""
+  shape[1] = "func=rect;x=119;y=112;width=366;height=16;bc=#71AC00;pc=#71AC00;pw=8;"
+  shape[2] = "func=rect;x=149;y=128;width=15;height=99;bc=#71AC00;pc=#71AC00;pw=8;"
+  shape[3] = "func=ell;x=42;y=0;width=34;height=45;bc=#EB9869;pc=#EB9869;pw=8;"
+  shape[4] = "func=ell;x=40;y=42;width=33;height=103;bc=#6A5ACD;pc=#6A5ACD;pw=8;"
+  shape[5] = "func=ell;x=0;y=81;width=7;height=1;bc=#6A5ACD;pc=#6A5ACD;pw=8;"
+  shape[6] = "func=rect;x=37;y=140;width=12;height=71;angle=9;bc=#6A5ACD;pc=#6A5ACD;pw=8;"     ' left Leg
+  shape[7] = "func=ell;x=30;y=209;width=33;height=13;angle=20;bc=#414C3E;pc=#414C3E;pw=8;"
+  shape[8] = "func=rect;x=63;y=140;width=13;height=68;angle=345;bc=#6A5ACD;pc=#6A5ACD;pw=8;"   ' Right Leg
+  shape[9] = "func=ell;x=71;y=203;width=33;height=13;angle=353;bc=#414C3E;pc=#414C3E;pw=8;"
+  shape[10] = "func=rect;x=54;y=71;width=60;height=8;angle=16;bc=#6A5ACD;pc=#000000;pw=1;"    ' arm
+  shape[11] = "func=ell;x=112;y=79;width=22;height=13;angle=11;bc=#EB9869;pc=#EB9869;pw=8;"   ' hand
+  shape[12] = "func=ell;x=67;y=10;width=7;height=5;bc=#000000;pc=#000000;pw=8;"               'Eye
+  shape[13] = "func=tri;x=74;y=17;x1=4;y1=0;x2=0;y2=12;x3=12;y3=15;angle=98;bc=#EB9869;pc=#EB9869;pw=1;"  'nose
+  shape[14] = "func=line;x=65;y=29;x1=8;y1=3;x2=0;y2=0;pc=#F80800;pw=2;"             ' mouse
+  shape[15] = "func=rect;x=438;y=67;width=35;height=44;bc=#000000;pc=#F80800;pw=1;"
+  shape[16] = "func=rect;x=440;y=128;width=15;height=99;bc=#71AC00;pc=#71AC00;pw=8;"
+  shape[17] = "func=ell;x=116;y=71;width=40;height=42;bc=#6A5ACD;pc=#000000;pw=2;"
+EndSub
